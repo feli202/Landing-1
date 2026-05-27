@@ -39,31 +39,6 @@ h1, h2 {
     z-index: 0;
 }
 
-#cursor {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: var(--color-primario);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease;
-    box-shadow: 0 0 10px rgba(255, 107, 43, 0.8);
-}
-
-#cursor-estela {
-    position: fixed;
-    width: 30px;
-    height: 30px;
-    border: 1px solid rgba(255, 107, 43, 0.4);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: all 0.15s ease;
-}
-
 header, main, footer {
     position: relative;
     z-index: 1;
@@ -389,4 +364,98 @@ footer {
     letter-spacing: 3px;
     text-transform: uppercase;
     border-top: 1px solid #2a2a2a;
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 768px) {
+
+    body {
+        cursor: auto;
+    }
+
+    header {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    header h1 {
+        font-size: 18px;
+        letter-spacing: 4px;
+    }
+
+    nav ul {
+        gap: 16px;
+    }
+
+    nav a {
+        font-size: 11px;
+        letter-spacing: 0.5px;
+    }
+
+    .hero {
+        padding: 100px 24px;
+        min-height: 100svh;
+    }
+
+    .hero h2 {
+        font-size: 36px;
+        letter-spacing: 3px;
+    }
+
+    .hero p {
+        font-size: 11px;
+        letter-spacing: 3px;
+    }
+
+    .hero button {
+        padding: 14px 32px;
+        font-size: 11px;
+    }
+
+    .galeria {
+        padding: 60px 20px;
+    }
+
+    .galeria h2 {
+        font-size: 28px;
+        letter-spacing: 3px;
+    }
+
+    .galeria .cartas {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .carta {
+        width: 100%;
+        max-width: 340px;
+        height: 300px;
+    }
+
+    .carta-overlay {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .contacto {
+        padding: 60px 20px;
+    }
+
+    .contacto h2 {
+        font-size: 28px;
+        letter-spacing: 3px;
+    }
+
+    .contacto form {
+        max-width: 100%;
+    }
+
+    footer {
+        padding: 30px 20px;
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
 }

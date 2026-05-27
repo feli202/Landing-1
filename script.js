@@ -6,6 +6,10 @@ canvas.height = window.innerHeight
 
 const particulas = []
 const cantidad = 80
+const particulasTexto = []
+const estela = []
+let mouseX = 0
+let mouseY = 0
 
 for (let i = 0; i < cantidad; i++) {
     particulas.push({
@@ -18,9 +22,25 @@ for (let i = 0; i < cantidad; i++) {
     })
 }
 
-const estela = []
-let mouseX = 0
-let mouseY = 0
+function emitirParticulasTexto() {
+    const h2 = document.querySelector('.hero h2')
+    if (!h2) return
+    const rect = h2.getBoundingClientRect()
+
+    for (let i = 0; i < 3; i++) {
+        particulasTexto.push({
+            x: rect.left + Math.random() * rect.width,
+            y: rect.top + Math.random() * 10,
+            radio: Math.random() * 2 + 0.5,
+            velocidadX: (Math.random() - 0.5) * 1.2,
+            velocidadY: -Math.random() * 2.5 - 1,
+            opacidad: Math.random() * 0.7 + 0.3,
+            color: Math.random() > 0.5 ? '255, 107, 43' : '255, 200, 80'
+        })
+    }
+
+    if (particulasTexto.length > 200) particulasTexto.splice(0, 20)
+}
 
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX
@@ -70,13 +90,9 @@ function animar() {
 
     estela.forEach((punto, i) => {
         const progreso = i / estela.length
-        const r = Math.floor(255)
-        const g = Math.floor(107 * progreso)
-        const b = Math.floor(43 * progreso * 0.3)
-
         ctx.beginPath()
         ctx.arc(punto.x, punto.y, punto.radio * progreso, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${punto.opacidad * progreso})`
+        ctx.fillStyle = `rgba(255, ${Math.floor(107 * progreso)}, 0, ${punto.opacidad * progreso})`
         ctx.shadowBlur = 15
         ctx.shadowColor = `rgba(255, 80, 0, 0.9)`
         ctx.fill()
@@ -94,6 +110,25 @@ function animar() {
     ctx.shadowColor = 'rgba(255, 107, 43, 1)'
     ctx.fill()
 
+    emitirParticulasTexto()
+
+    for (let i = particulasTexto.length - 1; i >= 0; i--) {
+        const p = particulasTexto[i]
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.radio, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(${p.color}, ${p.opacidad})`
+        ctx.shadowBlur = 10
+        ctx.shadowColor = `rgba(255, 107, 43, 0.8)`
+        ctx.fill()
+
+        p.x += p.velocidadX
+        p.y += p.velocidadY
+        p.opacidad -= 0.012
+        p.radio *= 0.98
+
+        if (p.opacidad <= 0) particulasTexto.splice(i, 1)
+    }
+
     requestAnimationFrame(animar)
 }
 
@@ -102,4 +137,11 @@ animar()
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
+})
+
+document.body.style.cursor = 'none'
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX
+    mouseY = e.clientY
 })
